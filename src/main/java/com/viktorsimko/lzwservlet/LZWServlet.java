@@ -29,7 +29,7 @@ public class LZWServlet extends HttpServlet {
             );
             printWriter.close();
         } catch (IOException ioe) {
-            System.err.print(ioe);
+            System.err.print(ioe.getMessage());
         }
     }
 
