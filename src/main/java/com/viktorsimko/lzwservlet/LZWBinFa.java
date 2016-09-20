@@ -86,7 +86,7 @@ class LZWBinFa {
     private double szorasosszeg;
 
     private void kiir(Csomopont elem, java.io.PrintWriter os) {
-        
+
         if (elem != null) {
             ++melyseg;
             kiir(elem.egyesGyermek(), os);
