@@ -18,19 +18,24 @@ public class LZWServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         String parameter = httpServletRequest.getParameter("text_input");
-        try {
-            PrintWriter printWriter = httpServletResponse.getWriter();
-            printWriter.write(
-                "<html>" +
-                    "<body>" +
-                        "<h1>" + parameter + "</h1>" +
-                    "</body>" +
-                "</html>"
-            );
-            printWriter.close();
-        } catch (IOException ioe) {
-            System.err.print(ioe.getMessage());
+
+        LZWBinFa binFa = new LZWBinFa();
+
+        for (int i = 0; i < parameter.length(); i++) {
+            binFa.egyBitFeldolg(parameter.charAt(i));
         }
+
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+
+        binFa.kiir(printWriter);
+
+        printWriter.write(
+                "<br/>Mélység: " + binFa.getMelyseg() + "<br/>Átlag: " + binFa.getAtlag() + "<br/>Szórás: " + binFa.getSzoras()
+        );
+
+        httpServletRequest.setAttribute("result", stringWriter.toString());
+        httpServletRequest.getRequestDispatcher("/results.jsp").forward(httpServletRequest, httpServletResponse);
     }
 
     @Override
